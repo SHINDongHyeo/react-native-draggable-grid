@@ -155,10 +155,15 @@ export const DraggableGrid = function<DataType extends IBaseItemType>(
     const xChokeAmount = Math.max(0, activeBlockOffset.x + moveX - (gridLayout.width - blockWidth))
     const xMinChokeAmount = Math.min(0, activeBlockOffset.x + moveX)
 
+    // Y축 제한 추가
+    const yChokeAmount = Math.max(0, activeBlockOffset.y + moveY - (gridLayout.height - blockHeight));
+    const yMinChokeAmount = Math.min(0, activeBlockOffset.y + moveY);
+
     const dragPosition = {
       x: moveX - xChokeAmount - xMinChokeAmount,
-      y: moveY,
+      y: moveY - yChokeAmount - yMinChokeAmount,// Y축 제한 적용
     }
+    
     const originPosition = blockPositions[orderMap[activeItem.key].order]
     const dragPositionToActivePositionDistance = getDistance(dragPosition, originPosition)
     activeItem.currentPosition.setValue(dragPosition)
